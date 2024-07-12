@@ -13,8 +13,18 @@ utils.retrieve_config_from_agent()
 if "aws_credentials" not in st.session_state:
     st.session_state.aws_credentials = None
 
-st.set_page_config(page_title="Amazon Q Business Custom UI") #HTML title
-st.title("Amazon Q Business Custom UI") #page title
+col1, col2, col3 = st.columns(3)
+
+with col1:
+   st.image('ph.png', caption=None, width=50, use_column_width=False)
+with col2:
+   st.text("")
+with col3:
+   st.image('getsitelogo.png', caption=None, width=180, use_column_width=False)
+
+assistant_icon = 'Personify_Health_Brandmark_Color.png'
+   
+st.text("Percy your AI-powered healthcare assistant")
 
 # Define a function to clear the chat history
 def clear_chat_history():
@@ -69,12 +79,14 @@ else:
         except Exception as e:
             st.error(f"Error refreshing Identity Center token: {e}. Please reload the page.")
 
-    col1, col2 = st.columns([1,1])
+    col1, col2, col3 = st.columns([1,1,.5])
 
     with col1:
-        st.write("Welcome: ", user_email)
+      st.write("Welcome: ", user_email)
     with col2:
-        st.button("Clear Chat History", on_click=clear_chat_history)
+      st.write("")
+    with col2:
+      st.button("Clear Chat History", on_click=clear_chat_history, use_container_width=True)
 
     # Initialize the chat messages in the session state if it doesn't exist
     if "messages" not in st.session_state:
@@ -101,7 +113,13 @@ else:
 
     # Display the chat messages
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
+    	if message["role"] == "assistant":
+         with st.chat_message(message["role"], avatar=assistant_icon):
+            st.write(message["content"])
+    
+    for message in st.session_state.messages:
+    	if message["role"] != "assistant":
+         with st.chat_message(message["role"]):
             st.write(message["content"])
 
 
