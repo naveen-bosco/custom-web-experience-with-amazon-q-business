@@ -16,15 +16,15 @@ if "aws_credentials" not in st.session_state:
 col1, col2, col3 = st.columns(3)
 
 with col1:
-   st.image('ph.png', caption=None, width=50, use_column_width=False)
+   st.image('./src/ph.png', caption=None, width=50, use_column_width=False)
 with col2:
    st.text("")
 with col3:
-   st.image('getsitelogo.png', caption=None, width=180, use_column_width=False)
+   st.image('./src/getsitelogo.png', caption=None, width=180, use_column_width=False)
 
 assistant_icon = 'Personify_Health_Brandmark_Color.png'
    
-st.text("Percy your AI-powered healthcare assistant")
+st.text("I am Percy, your AI-powered assistant!!")
 
 # Define a function to clear the chat history
 def clear_chat_history():
@@ -85,7 +85,7 @@ else:
       st.write("Welcome: ", user_email)
     with col2:
       st.write("")
-    with col2:
+    with col3:
       st.button("Clear Chat History", on_click=clear_chat_history, use_container_width=True)
 
     # Initialize the chat messages in the session state if it doesn't exist
@@ -140,8 +140,6 @@ else:
                                                  st.session_state["idc_jwt_token"]["idToken"])
                 if "references" in response:
                     full_response = f"""{response["answer"]}\n\n---\n{response["references"]}"""
-                else:
-                    full_response = f"""{response["answer"]}\n\n---\nNo sources"""
                 placeholder.markdown(full_response)
                 st.session_state["conversationId"] = response["conversationId"]
                 st.session_state["parentMessageId"] = response["parentMessageId"]
