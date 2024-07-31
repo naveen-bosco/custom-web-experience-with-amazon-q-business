@@ -113,12 +113,12 @@ else:
 
     # Display the chat messages
     for message in st.session_state.messages:
-    	if message["role"] == "assistant":
+    	if message["role"] != "user":
          with st.chat_message(message["role"], avatar=assistant_icon):
             st.write(message["content"])
     
     for message in st.session_state.messages:
-    	if message["role"] != "assistant":
+    	if message["role"] == "user":
          with st.chat_message(message["role"]):
             st.write(message["content"])
 
@@ -140,6 +140,8 @@ else:
                                                  st.session_state["idc_jwt_token"]["idToken"])
                 if "references" in response:
                     full_response = f"""{response["answer"]}\n\n---\n{response["references"]}"""
+                else:
+                    full_response = ""
                 placeholder.markdown(full_response)
                 st.session_state["conversationId"] = response["conversationId"]
                 st.session_state["parentMessageId"] = response["parentMessageId"]
