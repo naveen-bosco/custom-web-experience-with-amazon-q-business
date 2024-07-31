@@ -22,7 +22,7 @@ with col2:
 with col3:
    st.image('./src/getsitelogo.png', caption=None, width=180, use_column_width=False)
 
-assistant_icon = 'Personify_Health_Brandmark_Color.png'
+assistant_icon = './src/Personify_Health_Brandmark_Color.png'
    
 st.text("I am Percy, your AI-powered assistant!!")
 
