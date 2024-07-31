@@ -13,18 +13,17 @@ utils.retrieve_config_from_agent()
 if "aws_credentials" not in st.session_state:
     st.session_state.aws_credentials = None
 
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns(2)
 
 with col1:
-   st.image('./src/ph.png', caption=None, width=50, use_column_width=False)
+   st.image('./src/ph.png', caption=None, width=100, use_column_width=False)
 with col2:
    st.text("")
-with col3:
    st.image('./src/getsitelogo.png', caption=None, width=180, use_column_width=False)
 
 assistant_icon = './src/Personify_Health_Brandmark_Color.png'
    
-st.text("I am Percy, your AI-powered assistant!!")
+st.text("I am Percy, \nyour AI-powered healthcare assistant!")
 
 # Define a function to clear the chat history
 def clear_chat_history():
@@ -110,18 +109,14 @@ else:
     if "input" not in st.session_state:
         st.session_state.input = ""
 
-
     # Display the chat messages
     for message in st.session_state.messages:
-    	if message["role"] != "user":
-         with st.chat_message(message["role"], avatar=assistant_icon):
-            st.write(message["content"])
-    
-    for message in st.session_state.messages:
-    	if message["role"] == "user":
-         with st.chat_message(message["role"]):
-            st.write(message["content"])
-
+        if message["role"] == "assistant":
+            with st.chat_message(message["role"], avatar=assistant_icon):
+                st.write(message["content"])
+        else:
+            with st.chat_message(message["role"]):
+                st.write(message["content"])
 
     # User-provided prompt
     if prompt := st.chat_input():
@@ -132,7 +127,7 @@ else:
 
     # If the last message is from the user, generate a response from the Q_backend
     if st.session_state.messages[-1]["role"] != "assistant":
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar=assistant_icon):
             with st.spinner("Thinking..."):
                 placeholder = st.empty()
                 response = utils.get_queue_chain(prompt,st.session_state["conversationId"],
@@ -141,7 +136,7 @@ else:
                 if "references" in response:
                     full_response = f"""{response["answer"]}\n\n---\n{response["references"]}"""
                 else:
-                    full_response = ""
+                    full_response = f"""{response["answer"]}\n\n---\n """
                 placeholder.markdown(full_response)
                 st.session_state["conversationId"] = response["conversationId"]
                 st.session_state["parentMessageId"] = response["parentMessageId"]
@@ -152,3 +147,5 @@ else:
             feedback_type="thumbs",
             optional_text_label="[Optional] Please provide an explanation",
         )
+
+st.image('./src/lb.png', caption=None, width=540, use_column_width=False)
