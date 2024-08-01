@@ -148,4 +148,4 @@ else:
             optional_text_label="[Optional] Please provide an explanation",
         )
 
-st.image('./src/lb.png', caption=None, width=540, use_column_width=False)
+# st.image('./src/lb.png', caption=None, width=540, use_column_width=False)
